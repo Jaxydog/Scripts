@@ -28,7 +28,7 @@ function message() {
 
 	shift 2
 
-	echo -e "\n${colors[bg]}${colors[fg]}$*${colors[reset]}\n"
+	echo -e "\n${colors[$bg]}${colors[$fg]} $* ${colors[reset]}\n"
 }
 
 function display() {
@@ -221,6 +221,11 @@ fi
 
 if ! grep -q 'MANPAGER' "$bash_variables"; then
 	(echo -e "export MANPAGER=\"sh -c 'col -bx | batcat -l man -p'\"" >> "$bash_variables") \
+		|| abort_process 'Failed to update manpage theme'
+fi
+
+if ! grep -q 'MANROFFOPT' "$bash_variables"; then
+	(echo -e "export MANROFFOPT='-c'" >> "$bash_variables") \
 		|| abort_process 'Failed to update manpage theme'
 fi
 
