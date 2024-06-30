@@ -195,7 +195,9 @@ touch "$batcat_config_file" \
 function download_theme() {
 	local name="$1.tmTheme"
 	local link="$batcat_themes_url/$name"
-	local file="$(echo "$batcat_themes_dir/$name" | sed -r 's/%20/ /g')"
+	local file
+
+    file="$(echo "$batcat_themes_dir/$name" | sed -r 's/%20/ /g')"
 
 	if [ ! -f "$file" ]; then
 		wget -P "$batcat_themes_dir" "$link" \
@@ -290,7 +292,7 @@ if [ -z "$(git config --global 'user.signingkey')" ]; then
 		echo -e "\nGPG user ID: $gpg_user_id"
 		read -rp 'Is this correct? (Y/n) ' response
 
-		([ "$response" = "y" ] || [ "$response" = "Y" ]) && break
+        { [ "$response" = "y" ] || [ "$response" = "Y" ]; } && break
 
 		unset response
 	done
@@ -320,6 +322,4 @@ if [ -z "$(git config --global 'user.signingkey')" ]; then
 
 	success 'Successfully configured Git commit signing'
 fi
-
-# --------------------------------------------------------------------------- #
 
