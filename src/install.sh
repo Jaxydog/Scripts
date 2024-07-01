@@ -265,6 +265,7 @@ function configure() {
 configure 'branch.sort' 'committerdate'
 configure 'column.ui' 'auto'
 configure 'init.defaultBranch' 'main'
+configure 'rerere.enable' 'true'
 
 if [ -z "$(git config --global 'user.name')" ]; then
 	git_user_name=$(prompt 'Enter Git username')
