@@ -95,7 +95,7 @@ function required_prompt() {
 display 'Setting up Bash environment'
 
 bashrc="$HOME/.bashrc"
-bash_config_dir="$HOME/.config/bash"
+bash_config_dir="${XDG_CONFIG_HOME:-"$HOME/.config"}/bash"
 bash_aliases="$bash_config_dir/.aliases"
 bash_variables="$bash_config_dir/.variables"
 
