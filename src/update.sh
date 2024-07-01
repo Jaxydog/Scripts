@@ -296,10 +296,6 @@ if [ -n "$(which cargo)" ]; then
     fi
 fi
 
-if [ -n "$(which tldr)" ]; then
-    update_section 'tldr' 'tldr --update'
-fi
-
 if [ -d "$script_directory" ]; then
     for filename in "$script_directory"/*; do
         [ ! -e "$filename" ] && continue
