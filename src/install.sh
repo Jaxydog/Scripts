@@ -166,6 +166,7 @@ function install_binary() {
 	done
 }
 
+install_binary 'du-dust' 'dust'
 install_binary 'eza' 'eza'
 install_binary 'ripgrep' 'rg'
 install_binary 'cargo-cache' 'cargo-cache'
