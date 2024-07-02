@@ -266,7 +266,7 @@ function update_section() {
         echo
     done
 
-    success "Successfully update section '$section'"
+    success "Successfully updated section '$section'"
 }
 
 # --------------------------------------------------------------------------- #
