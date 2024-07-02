@@ -23,5 +23,3 @@ if [ -z "$(which tldr)" ]; then
 fi
 
 tldr --update
-
-return 0
