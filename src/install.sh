@@ -95,9 +95,14 @@ function required_prompt() {
 display 'Setting up Bash environment'
 
 bashrc="$HOME/.bashrc"
+
 bash_config_dir="${XDG_CONFIG_HOME:-"$HOME/.config"}/bash"
 bash_aliases="$bash_config_dir/aliases"
 bash_variables="$bash_config_dir/variables"
+
+raw_bash_config_dir='${XDG_CONFIG_HOME:-"$HOME/.config"}/bash'
+raw_bash_aliases="$raw_bash_config_dir/aliases"
+raw_bash_variables="$raw_bash_config_dir/variables"
 
 if [ ! -d "$bash_config_dir" ]; then
     mkdir -p "$bash_config_dir" \
@@ -107,13 +112,13 @@ fi
 touch "$bash_aliases" "$bash_variables" \
     || abort_process 'Failed to create config files'
 
-if ! grep -q "$bash_aliases" "$bashrc"; then
-    (echo "[ -f \"$bash_aliases\" ] && . '$bash_aliases'" >> "$bashrc") \
+if ! grep -q "$raw_bash_aliases" "$bashrc"; then
+    (echo "[ -f \"$raw_bash_aliases\" ] && . \"$raw_bash_aliases\"" >> "$bashrc") \
         || abort_process 'Failed to add aliases to bashrc'
 fi
 
-if ! grep -q "$bash_variables" "$bashrc"; then
-    (echo "[ -f \"$bash_variables\" ] && . '$bash_variables'" >> "$bashrc") \
+if ! grep -q "$raw_bash_variables" "$bashrc"; then
+    (echo "[ -f \"$raw_bash_variables\" ] && . \"$raw_bash_variables\"" >> "$bashrc") \
         || abort_process 'Failed to add variables to bashrc'
 fi
 
