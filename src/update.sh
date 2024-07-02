@@ -18,8 +18,26 @@ script_name='Update'
 script_version='0.1.0'
 
 config_directory="${XDG_CONFIG_HOME:-"$HOME/.config"}/update"
+
 pinned_directory="$config_directory/pinned"
+
+if [ -L "$pinned_directory" ]; then
+    pinned_directory="$(readlink "$pinned_directory")"
+
+    if [[ "$pinned_directory" =~ ^.*\/$ ]]; then
+        pinned_directory="${pinned_directory::-1}"
+    fi
+fi
+
 script_directory="$config_directory/script"
+
+if [ -L "$script_directory" ]; then
+    script_directory="$(readlink "$script_directory")"
+
+    if [[ "$script_directory" =~ ^.*\/$ ]]; then
+        script_directory="${script_directory::-1}"
+    fi
+fi
 
 ignored_sections=()
 pinned_sections=()
