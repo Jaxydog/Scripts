@@ -300,6 +300,13 @@ success 'Successfully configured global Git settings'
 
 # --------------------------------------------------------------------------- #
 
+# Adopted from https://github.com/RemasteredArch/dotfiles/blob/main/scripts/dotfiles/git_commit_signing_setup.sh
+# which is licensed under the GNU General Public License version 3, found at:
+# * https://github.com/RemasteredArch/dotfiles/blob/main/LICENSE
+# * https://www.gnu.org/licenses/
+#
+# Copyright © 2024 RemasteredArch
+
 if [ -z "$(git config --global 'user.signingkey')" ]; then
     display 'Configuring Git commit signing'
 
