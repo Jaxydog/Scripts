@@ -96,8 +96,8 @@ display 'Setting up Bash environment'
 
 bashrc="$HOME/.bashrc"
 bash_config_dir="${XDG_CONFIG_HOME:-"$HOME/.config"}/bash"
-bash_aliases="$bash_config_dir/.aliases"
-bash_variables="$bash_config_dir/.variables"
+bash_aliases="$bash_config_dir/aliases"
+bash_variables="$bash_config_dir/variables"
 
 if [ ! -d "$bash_config_dir" ]; then
     mkdir -p "$bash_config_dir" \
