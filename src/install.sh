@@ -136,12 +136,20 @@ success 'Successfully updated APT packages'
 
 display 'Installing APT packages'
 
-apt_packages='bat cowsay gcc gh libssl-dev lolcat lua5.4 pkg-config sl'
+apt_packages='bat cowsay gcc libssl-dev lolcat lua5.4 pkg-config sl'
 
 sudo apt install $apt_packages -qy \
 	|| abort_process 'Failed to install APT packages'
 
 unset apt_packages
+
+(type -p wget >/dev/null || (sudo apt update && sudo apt-get install wget -y)) \
+	&& sudo mkdir -p -m 755 /etc/apt/keyrings \
+	&& wget -qO- https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo tee /etc/apt/keyrings/githubcli-archive-keyring.gpg > /dev/null \
+	&& sudo chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg \
+	&& echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
+	&& sudo apt update \
+	&& sudo apt install gh -y
 
 success 'Successfully install APT packages'
 
