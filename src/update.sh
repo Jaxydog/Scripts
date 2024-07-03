@@ -271,6 +271,8 @@ function update_section() {
 
 # --------------------------------------------------------------------------- #
 
+echo
+
 if [ -d "$pinned_directory" ]; then
     for filename in "$pinned_directory"/*; do
         [ ! -e "$filename" ] && continue
