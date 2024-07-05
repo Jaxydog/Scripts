@@ -13,13 +13,15 @@
 # You should have received a copy of the GNU General Public License along with Scripts. If not, see <https://www.gnu.org/licenses/>.
 
 if [ -z "$(which tldr)" ]; then
-    if [ -n "$(which cargo)" ]; then
-        cargo install tealdeer
-    else
+    if [ -z "$(which cargo)" ]; then
         echo 'Missing Cargo installation'
 
-        return 1
+        exit 1
     fi
+
+    cargo install tealdeer || exit $?
 fi
 
 tldr --update
+
+exit $?
