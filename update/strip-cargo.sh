@@ -22,6 +22,8 @@ pretty_bin_path="${cargo_bin_path/"$HOME"/'~'}"
 
 echo "Stripping binaries in '$pretty_bin_path'"
 
+unset pretty_bin_path
+
 function pretty_size() {
     local size="${1:-0}"
     local format="${2:-'%.1f'}"
@@ -57,6 +59,8 @@ for path in "$cargo_bin_path"/*; do
     stripped_file_size=$(pretty_size "$stripped_file_size")
 
     printf -- "\055 %s: %s -> %s (%s)\n" "$file_name" "$file_size" "$stripped_file_size" "$percentage"
+
+    unset file_name file_size stripped_file_size percentage
 done
 
 echo
@@ -67,6 +71,8 @@ if [ $total_size -ne 0 ]; then
     total_stripped_size=$(pretty_size "$total_stripped_size")
 
     printf "Overall: %s -> %s (%s)\n" "$total_size" "$total_stripped_size" "$percentage"
+
+    unset percentage
 else
     echo "No binaries modified."
 fi
