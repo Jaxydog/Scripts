@@ -32,7 +32,7 @@ function pretty_percent() {
     local first="${1:-1}"
     local second="${2:-1}"
 
-    printf "%.1f%%" "$(echo "scale=3; -(100 - (($first / $second) * 100))" | bc)"
+    printf "%.1f%%" "$(echo "scale=3; (($first / $second) * 100) - 100" | bc)"
 }
 
 echo
