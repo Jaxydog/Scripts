@@ -30,6 +30,7 @@ function pretty_size() {
 
     numfmt --to=iec-i --suffix=B --format="$format" "$size" | sed -e "s/^'//" -e "s/'$//"
 }
+
 function pretty_percent() {
     local first="${1:-1}"
     local second="${2:-1}"
@@ -65,14 +66,16 @@ done
 
 echo
 
-if [ $total_size -ne 0 ]; then
-    percentage=$(pretty_percent "$total_stripped_size" "$total_size")
-    total_size=$(pretty_size "$total_size")
-    total_stripped_size=$(pretty_size "$total_stripped_size")
+if [ $total_size -eq 0 ]; then
+    echo "No suitable binaries found."
 
-    printf "Overall: %s -> %s (%s)\n" "$total_size" "$total_stripped_size" "$percentage"
-
-    unset percentage
-else
-    echo "No binaries modified."
+    exit 0
 fi
+
+percentage=$(pretty_percent "$total_stripped_size" "$total_size")
+total_size=$(pretty_size "$total_size")
+total_stripped_size=$(pretty_size "$total_stripped_size")
+
+printf "Overall: %s -> %s (%s)\n" "$total_size" "$total_stripped_size" "$percentage"
+
+unset percentage
