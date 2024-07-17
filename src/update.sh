@@ -15,7 +15,7 @@
 # --------------------------------------------------------------------------- #
 
 script_name='Update'
-script_version='0.1.0'
+script_version='0.1.1'
 
 config_directory="${XDG_CONFIG_HOME:-"$HOME/.config"}/update"
 
@@ -211,7 +211,7 @@ function is_pinned() {
     [ -z "$section" ] && abort 1 'Expected a section title'
 
     for pinned in "${pinned_sections[@]}"; do
-        [ "$pinned" -ne "$section" ] && continue
+        [ "$pinned" != "$section" ] && continue
 
         return 0
     done
@@ -225,7 +225,7 @@ function is_ignored() {
     [ -z "$section" ] && abort 1 'Expected a section title'
 
     for ignored in "${ignored_sections[@]}"; do
-        [ "$ignored" -ne "$section" ] && continue
+        [ "$ignored" != "$section" ] && continue
 
         return 0
     done
