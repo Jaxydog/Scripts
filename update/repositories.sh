@@ -26,7 +26,7 @@ while read -r line; do
 done < "$repository_file"
 
 for directory in "${repositories[@]}"; do
-    [ ! -d "$directory" ] && continue
+    [ ! -e "$directory" ] && continue
 
     if [ -L "$directory" ]; then
         directory="$(readlink "$directory")"
@@ -73,9 +73,9 @@ for directory in "${repositories[@]}"; do
                 exit 0
             fi
 
-            echo -e "- Updating '$project_name'"
+            echo "- Updating '$project_name'"
 
-            git pull &> /dev/null || exit $?
+            git pull > /dev/null || exit $?
         ) || exit $?
     done
 
