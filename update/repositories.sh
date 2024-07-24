@@ -26,7 +26,7 @@ while read -r line; do
 done < "$repository_file"
 
 for directory in "${repositories[@]}"; do
-    [ ! -e "$directory" ] && continue
+    [ -e "$directory" ] || continue
 
     if [ -L "$directory" ]; then
         directory="$(readlink "$directory")"
@@ -35,12 +35,12 @@ for directory in "${repositories[@]}"; do
         directory="${directory::-1}"
     fi
     
-    [ ! -e "$directory" ] && continue
+    [ -e "$directory" ] || continue
 
     echo -e "Updating repositories in '${directory/"$HOME"/\~}'\n"
 
     for project in "$directory"/*; do
-        [ ! -e "$project" ] && continue
+        [ -e "$project" ] || continue
     
         if [ -L "$project" ]; then
             project="$(readlink "$project")"
@@ -49,7 +49,7 @@ for directory in "${repositories[@]}"; do
             project="${project::-1}"
         fi
         
-        [ ! -e "$project" ] && continue
+        [ -e "$project" ] || continue
         
         project_name="${project#"$directory/"}"
 
