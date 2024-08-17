@@ -42,6 +42,8 @@ for directory in "${repositories[@]}"; do
     for project in "$directory"/*; do
         [ -e "$project" ] || continue
     
+        project_name="${project#"$directory/"}"
+
         if [ -L "$project" ]; then
             project="$(readlink "$project")"
         fi
@@ -50,8 +52,6 @@ for directory in "${repositories[@]}"; do
         fi
         
         [ -e "$project" ] || continue
-        
-        project_name="${project#"$directory/"}"
 
         if [ ! -e "$project/.git" ]; then
             echo "~ Skipping '$project_name' (Non-git)"
