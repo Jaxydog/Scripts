@@ -39,6 +39,10 @@ for directory in "${repositories[@]}"; do
 
     echo -e "Updating repositories in '${directory/"$HOME"/\~}'\n"
 
+    if [ ! "$(ls -A "$directory")" ]; then
+        echo "~ No projects found."
+    fi
+
     for project in "$directory"/*; do
         [ -e "$project" ] || continue
     
