@@ -15,8 +15,20 @@
 config_directory="${XDG_CONFIG_HOME:-"$HOME/.config"}/update"
 repository_file="$config_directory/repositories"
 
+if [ ! -e "$repository_file" ]; then
+    echo "Unable to find repository file ('$repository_file')"
+
+    exit 0
+fi
+
 if [ -L "$repository_file" ]; then
     repository_file="$(readlink "$repository_file")"
+
+    if [ ! -e "$repository_file" ]; then
+        echo "Broken repository symlink ('$repository_file')"
+
+        exit 0
+    fi
 fi
 
 repositories=()
