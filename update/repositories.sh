@@ -49,6 +49,33 @@ for directory in "${repositories[@]}"; do
     
     [ -e "$directory" ] || continue
 
+    if [ -e "$directory/.git" ]; then
+        echo -e "Updating repository '${directory/"$HOME"/\~}'\n"
+
+        project_name="$(basename "$directory")"
+
+        (
+            cd "$directory" || exit $?
+
+            if [ -z "$(git remote)" ]; then
+                echo "~ Skipping '$project_name' (Local)"
+
+                exit 0
+            fi
+            if [ -n "$(git status --porcelain)" ]; then
+                echo "~ Skipping '$project_name' (Modified)"
+
+                exit 0
+            fi
+
+            echo -e "- Updating '$project_name'\n"
+
+            git pull > /dev/null || exit $?
+        ) || exit $?
+
+        continue
+    fi
+
     echo -e "Updating repositories in '${directory/"$HOME"/\~}'\n"
 
     if [ ! "$(ls -A "$directory")" ]; then
@@ -66,7 +93,7 @@ for directory in "${repositories[@]}"; do
         if [[ "$project" =~ ^.*\/$ ]]; then
             project="${project::-1}"
         fi
-        
+
         [ -e "$project" ] || continue
 
         if [ ! -e "$project/.git" ]; then
@@ -77,7 +104,7 @@ for directory in "${repositories[@]}"; do
 
         (
             cd "$project" || exit $?
-            
+
             if [ -z "$(git remote)" ]; then
                 echo "~ Skipping '$project_name' (Local)"
 
