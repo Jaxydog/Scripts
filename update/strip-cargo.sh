@@ -13,6 +13,9 @@
 # You should have received a copy of the GNU General Public License along with Scripts. If not, see <https://www.gnu.org/licenses/>.
 
 cargo_bin_path="${CARGO_HOME:-"$HOME/.cargo"}/bin"
+config_directory="${XDG_CONFIG_HOME:-"$HOME/.config"}/update"
+inclusion_file="$config_directory/stripped-cargo-binaries"
+
 total_size=0;
 total_stripped_size=0;
 
@@ -21,6 +24,26 @@ total_stripped_size=0;
 pretty_bin_path="${cargo_bin_path/"$HOME"/'~'}"
 
 echo "Stripping binaries in '$pretty_bin_path'"
+
+included=()
+
+if [ -e "$inclusion_file" ]; then
+    if [ -L "$inclusion_file" ]; then
+        inclusion_file="$(readlink "$inclusion_file")"
+
+        if [ ! -e "$inclusion_file" ]; then
+            echo "Broken inclusion symlink ('$inclusion_file')"
+
+            exit 0
+        fi
+    fi
+
+    echo "Reading inclusion file '${inclusion_file/"$HOME"/\~}'"
+
+    while read -r line; do
+        included+=("$line")
+    done < "$inclusion_file"
+fi
 
 unset pretty_bin_path
 
@@ -45,7 +68,9 @@ for path in "$cargo_bin_path"/*; do
 
     file_name="${path##"$cargo_bin_path/"}"
 
-    [[ "$file_name" =~ ^(cargo|clippy|rust) ]] && continue
+    [[ "$file_name" =~ ^(cargo|clippy|rust) ]] && {
+        [[ "${included[*]}" =~ "$file_name" ]] || continue
+    }
 
     file_size="$(stat -c%s "$path")"
     total_size=$((total_size + file_size))
