@@ -78,6 +78,15 @@ for directory in "${repositories[@]}"; do
 
     echo -e "Updating repositories in '${directory/"$HOME"/\~}'\n"
 
+    ignore_file="$directory/.repoignore"
+    ignore_list=()
+
+    if [ -f "$ignore_file" ]; then
+        while read -r line; do
+            ignore_list+=("$line")
+        done < "$ignore_file"
+    fi
+
     if [ ! "$(ls -A "$directory")" ]; then
         echo "~ No projects found."
     fi
@@ -86,6 +95,19 @@ for directory in "${repositories[@]}"; do
         [ -e "$project" ] || continue
     
         project_name="${project#"$directory/"}"
+        should_ignore=false
+
+        for ignored in "${ignore_list[@]}"; do
+            $should_ignore && continue
+
+            [ "$ignored" == "$project_name" ] && should_ignore=true
+        done
+
+        if $should_ignore; then
+            echo "~ Skipping '$project_name' (Ignored)"
+
+            continue
+        fi
 
         if [ -L "$project" ]; then
             project="$(readlink "$project")"
