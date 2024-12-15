@@ -92,5 +92,9 @@ fi
     make CMAKE_BUILD_TYPE=RelWithDebInfo
     sudo make install
 
+    echo 'Removing build artifacts'
+
+    rm -rf ./build
+
     echo 'Successfully updated Neovim'
 )
