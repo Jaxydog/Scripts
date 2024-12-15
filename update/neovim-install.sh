@@ -62,10 +62,10 @@ fi
 
     git remote update
 
-    if [ $force_install = false ] \
-        && [ -n "$(which nvim)" ] \
-        && [ -z "$(git fetch --dry-run --porcelain | head -n 1)" ]
-    then
+    current_commit="$(git log --oneline -n 1 HEAD)"
+    remote_commit="$(git log --oneline -n 1 FETCH_HEAD)"
+
+    if [ $force_install = false ] && [ -n "$(which nvim)" ] && [ "$current_commit" = "$remote_commit" ]; then
         echo 'No updates found'
 
         exit 0
