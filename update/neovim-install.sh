@@ -74,6 +74,7 @@ fi
     echo 'Updates found, updating source'
 
     git pull
+    git gc
 
     echo 'Checking prerequisite build dependencies'
 
