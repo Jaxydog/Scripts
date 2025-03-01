@@ -95,7 +95,7 @@ fi
 
     echo 'Removing build artifacts'
 
-    rm -rf ./build
+    sudo rm -rf ./build
 
     echo 'Successfully updated Neovim'
 )
