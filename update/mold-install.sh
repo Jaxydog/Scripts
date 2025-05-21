@@ -30,7 +30,7 @@ elif [ ! -d "$install_dir" ]; then
 
     echo 'Downloading mold source'
 
-    git clone --depth 1 https://github.com/rui314/mold.git "$install_dir"
+    git clone --depth 1 --branch stable https://github.com/rui314/mold.git "$install_dir"
 
     force_install=true
 fi
